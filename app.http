@@ -1,0 +1,285 @@
+@baseUrl = http://localhost:8000
+@usersPath = /users
+@userId = be711bcf-7a0a-4033-ab7b-23a895bf6e7c
+@wastePath = /waste
+@wasteId = cfff13c3-bfd6-418f-a8a5-14e6b940438b
+@wasteRequestId = 12e05b4c-d977-4859-bc7d-8237cf290442
+@rewardsPath = /rewards
+@rewardId = f2098af6-9660-4f7d-b0b2-b53094c11cce
+@marketplacePath = /marketplace
+@marketplaceId = c7051474-d51a-45b1-ba28-a328a0e448ea
+@recyclerOrderId = 73836ceb-ff2d-4598-bd67-75b41ccc6983
+@notificationsPath = /notifications
+@notificationId = 00000000-0000-0000-0000-000000000000
+@analyticsPath = /analytics
+@analyticsId = 00000000-0000-0000-0000-000000000000
+
+
+########################################  USERS TESTING ENDPOINTS   ###########################################################
+
+### Create User
+POST {{baseUrl}}{{usersPath}}
+Content-Type: application/json
+
+{
+  "full_name": "antony gichuki",
+  "email": "antoh@test.gmail.com",
+  "password": "ChangeMe123!",
+  "role": "HOUSEHOLD",
+  "phone_number": "+1234567890",
+  "location": "Lagos, NG",
+  "green_points": 0
+}
+
+### Get All Users
+GET {{baseUrl}}{{usersPath}}
+
+### Get One User by ID
+GET {{baseUrl}}{{usersPath}}/{{userId}}
+
+### Update User (partial)
+PATCH {{baseUrl}}{{usersPath}}/{{userId}}
+Content-Type: application/json
+
+{
+  "full_name": "Jane A. Doe",
+  "location": "Abuja, NG"
+}
+
+### Delete User
+DELETE {{baseUrl}}{{usersPath}}/{{userId}}
+
+############################### WASTE TESTING ENDPOINTS       ######################################################################
+
+### Create Waste
+POST {{baseUrl}}{{wastePath}}
+Content-Type: application/json
+
+{
+  "type": "PLASTIC",
+  "weight_kg": 2.5,
+  "owner": "{{userId}}",
+  "description": "Plastic bottles and containers"
+}
+
+### Get All Waste
+GET {{baseUrl}}{{wastePath}}
+
+### Get One Waste by ID
+GET {{baseUrl}}{{wastePath}}/{{wasteId}}
+
+### Update Waste (partial)
+PATCH {{baseUrl}}{{wastePath}}/{{wasteId}}
+Content-Type: application/json
+
+{
+  "weight_kg": 3.0,
+  "description": "Updated description"
+}
+
+### Delete Waste
+DELETE {{baseUrl}}{{wastePath}}/{{wasteId}}
+
+#############################  WASTE REQUEST ENDPOINTS  ######################################################################
+
+### Create Waste Request
+POST {{baseUrl}}{{wastePath}}/requests
+Content-Type: application/json
+
+{
+  "user": "{{userId}}",
+  "waste_type": "PLASTIC",
+  "status": "PENDING",
+  "weight_kg": 1.5,
+  "pickup_time": "2024-01-15T10:00:00Z"
+}
+
+### Get All Waste Requests
+GET {{baseUrl}}{{wastePath}}/requests
+
+### Get One Waste Request by ID
+GET {{baseUrl}}{{wastePath}}/requests/{{wasteRequestId}}
+
+### Update Waste Request (partial)
+PATCH {{baseUrl}}{{wastePath}}/requests/{{wasteRequestId}}
+Content-Type: application/json
+
+{
+  "status": "ASSIGNED",
+  "weight_kg": 2.0,
+  "collector":"{{userId}}"
+}
+
+### Delete Waste Request
+DELETE {{baseUrl}}{{wastePath}}/requests/{{wasteRequestId}}
+
+################### REWARDS CREATION ENDPOINTS ###################################################
+
+### Create Reward
+POST {{baseUrl}}{{rewardsPath}}
+Content-Type: application/json
+
+{
+  "user": "{{userId}}",
+  "points_earned": 50,
+  "description": "Eco-friendly waste disposal reward"
+}
+
+### Get All Rewards
+GET {{baseUrl}}{{rewardsPath}}
+
+### Get One Reward by ID
+GET {{baseUrl}}{{rewardsPath}}/{{rewardId}}
+
+### Update Reward (partial)
+PATCH {{baseUrl}}{{rewardsPath}}/{{rewardId}}
+Content-Type: application/json
+
+{
+  "points_earned": 75,
+  "description": "Updated reward description"
+}
+
+### Delete Reward
+DELETE {{baseUrl}}{{rewardsPath}}/{{rewardId}}
+
+################################ MARKETPLACE ENDPOINTS ###########################################
+
+### Create Marketplace Item
+POST {{baseUrl}}{{marketplacePath}}
+Content-Type: application/json
+
+{
+  "item_name": "Recycled Plastic Bottles",
+  "price": 25.50,
+  "description": "Clean plastic bottles ready for recycling",
+  "seller": "{{userId}}",
+  "status": "LISTED"
+}
+
+### Get All Marketplace Items
+GET {{baseUrl}}{{marketplacePath}}
+
+### Get One Marketplace Item by ID
+GET {{baseUrl}}{{marketplacePath}}/{{marketplaceId}}
+
+### Update Marketplace Item (partial)
+PATCH {{baseUrl}}{{marketplacePath}}/{{marketplaceId}}
+Content-Type: application/json
+
+{
+  "price": 30.00,
+  "status": "SOLD",
+  "buyer": "{{userId}}"
+}
+
+### Delete Marketplace Item
+DELETE {{baseUrl}}{{marketplacePath}}/{{marketplaceId}}
+
+#################### RECYCLE ORDER ENDPOINTS ########################################
+
+### Create Recycler Order
+POST {{baseUrl}}{{marketplacePath}}/orders
+Content-Type: application/json
+
+{
+  "recycler": "{{userId}}",
+  "material_type": "Plastic bottles",
+  "required_quantity_kg": 100.0,
+  "status": "OPEN"
+}
+
+### Get All Recycler Orders
+GET {{baseUrl}}{{marketplacePath}}/orders
+
+### Get One Recycler Order by ID
+GET {{baseUrl}}{{marketplacePath}}/orders/{{recyclerOrderId}}
+
+### Update Recycler Order (partial)
+PATCH {{baseUrl}}{{marketplacePath}}/orders/{{recyclerOrderId}}
+Content-Type: application/json
+
+{
+  "required_quantity_kg": 150.0,
+  "status": "IN_PROGRESS"
+}
+
+### Delete Recycler Order
+DELETE {{baseUrl}}{{marketplacePath}}/orders/{{recyclerOrderId}}
+
+###################### NOTIFICATIONS ENDPOINTS ########################################################
+
+### Create Notification
+POST {{baseUrl}}{{notificationsPath}}
+Content-Type: application/json
+
+{
+  "user": "{{userId}}",
+  "message": "Your waste collection request has been approved",
+  "notification_type": "WASTE",
+  "is_read": false
+}
+
+### Get All Notifications
+GET {{baseUrl}}{{notificationsPath}}
+
+### Get Notifications by User
+GET {{baseUrl}}{{notificationsPath}}/user/{{userId}}
+
+### Get One Notification by ID
+GET {{baseUrl}}{{notificationsPath}}/{{notificationId}}
+
+### Update Notification (partial)
+PATCH {{baseUrl}}{{notificationsPath}}/{{notificationId}}
+Content-Type: application/json
+
+{
+  "message": "Updated notification message"
+}
+
+### Mark Notification as Read
+PATCH {{baseUrl}}{{notificationsPath}}/{{notificationId}}/read
+
+### Mark All User Notifications as Read
+PATCH {{baseUrl}}{{notificationsPath}}/user/{{userId}}/read-all
+
+### Delete Notification
+DELETE {{baseUrl}}{{notificationsPath}}/{{notificationId}}
+
+##################### ANAlLYTICS ENDPOINTS #################################
+
+### Create Analytics Record
+POST {{baseUrl}}{{analyticsPath}}
+Content-Type: application/json
+
+{
+  "user": "{{userId}}",
+  "metric": "waste_collected_kg",
+  "value": 15.5
+}
+
+### Get All Analytics
+GET {{baseUrl}}{{analyticsPath}}
+
+### Get Aggregated Metrics
+GET {{baseUrl}}{{analyticsPath}}/aggregated
+
+### Get Analytics by User
+GET {{baseUrl}}{{analyticsPath}}/user/{{userId}}
+
+### Get Analytics by Metric
+GET {{baseUrl}}{{analyticsPath}}/metric/waste_collected_kg
+
+### Get One Analytics Record by ID
+GET {{baseUrl}}{{analyticsPath}}/{{analyticsId}}
+
+### Update Analytics Record (partial)
+PATCH {{baseUrl}}{{analyticsPath}}/{{analyticsId}}
+Content-Type: application/json
+
+{
+  "value": 20.0
+}
+
+### Delete Analytics Record
+DELETE {{baseUrl}}{{analyticsPath}}/{{analyticsId}}
