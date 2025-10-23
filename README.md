@@ -469,4 +469,4 @@ For support, email support@wastechain.com or create an issue in the repository.
 
 ---
 
-*Last updated: october 2025| Version 1.0.0*
+*Last updated: october 2025 | Version 1.0.0*
