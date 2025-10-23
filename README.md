@@ -455,7 +455,6 @@ For support, email support@wastechain.com or create an issue in the repository.
 - **Feedback**: Share your ideas and suggestions
 
 ### For Investors
-- **Series A**: Currently raising $5M for expansion
 - **Impact Investing**: Focus on environmental and social returns
 - **Strategic Partnerships**: Corporate partnership opportunities
 - **Advisory Board**: Join our advisory board
