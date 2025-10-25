@@ -11,6 +11,7 @@ import { RewardsModule } from './rewards/rewards.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { WasteModule } from './waste/waste.module';
+import { LocationsModule } from './locations/locations.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WasteModule } from './waste/waste.module';
     NotificationsModule,
     AnalyticsModule,
     WasteModule,
+    LocationsModule,
   ],
   controllers: [],
   providers: [AppService],

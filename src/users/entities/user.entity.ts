@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { WasteRequest } from 'src/waste/entities/waste-request.entity';
+import { Location } from 'src/locations/entities/location.entity';
 
 @Entity('users')
 export class User {
@@ -32,4 +33,7 @@ export class User {
 
   @OneToMany(() => WasteRequest, (req) => req.user)
   waste_requests: WasteRequest[];
+
+  @OneToMany(() => Location, (location) => location.user)
+  locations: Location[];
 }

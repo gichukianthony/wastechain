@@ -13,6 +13,8 @@
 @notificationId = 00000000-0000-0000-0000-000000000000
 @analyticsPath = /analytics
 @analyticsId = 00000000-0000-0000-0000-000000000000
+@locationsPath = /locations
+@locationId = 00000000-0000-0000-0000-000000000000
 
 
 ########################################  USERS TESTING ENDPOINTS   ###########################################################
@@ -283,3 +285,124 @@ Content-Type: application/json
 
 ### Delete Analytics Record
 DELETE {{baseUrl}}{{analyticsPath}}/{{analyticsId}}
+
+##################### LOCATIONS ENDPOINTS #################################
+
+### Create Location
+POST {{baseUrl}}{{locationsPath}}
+Content-Type: application/json
+
+{
+  "address": "123 Main Street, Victoria Island",
+  "city": "Lagos",
+  "state": "Lagos State",
+  "country": "Nigeria",
+  "postal_code": "101241",
+  "latitude": 6.4281,
+  "longitude": 3.4219,
+  "landmark": "Near Shoprite Mall",
+  "instructions": "Ring the doorbell twice",
+  "location_type": "HOME",
+  "is_active": true,
+  "is_primary": true,
+  "user_id": "{{userId}}"
+}
+
+### Create Office Location
+POST {{baseUrl}}{{locationsPath}}
+Content-Type: application/json
+
+{
+  "address": "456 Business District, Ikoyi",
+  "city": "Lagos",
+  "state": "Lagos State",
+  "country": "Nigeria",
+  "postal_code": "101233",
+  "latitude": 6.4474,
+  "longitude": 3.4203,
+  "landmark": "Next to GTBank",
+  "instructions": "Use the main entrance",
+  "location_type": "OFFICE",
+  "is_active": true,
+  "is_primary": false,
+  "user_id": "{{userId}}"
+}
+
+### Get All Locations
+GET {{baseUrl}}{{locationsPath}}
+
+### Get Locations by User
+GET {{baseUrl}}{{locationsPath}}/user/{{userId}}
+
+### Get Primary Location by User
+GET {{baseUrl}}{{locationsPath}}/user/{{userId}}/primary
+
+### Get Locations by Type
+GET {{baseUrl}}{{locationsPath}}/type/HOME
+
+### Find Nearby Locations (within 5km of Lagos coordinates)
+GET {{baseUrl}}{{locationsPath}}/nearby?latitude=6.4281&longitude=3.4219&radius=5
+
+### Calculate Distance between two points
+GET {{baseUrl}}{{locationsPath}}/distance?lat1=6.4281&lon1=3.4219&lat2=6.4474&lon2=3.4203
+
+### Get One Location by ID
+GET {{baseUrl}}{{locationsPath}}/{{locationId}}
+
+### Update Location (partial)
+PATCH {{baseUrl}}{{locationsPath}}/{{locationId}}
+Content-Type: application/json
+
+{
+  "address": "123 Updated Main Street, Victoria Island",
+  "city": "Lagos",
+  "instructions": "Updated instructions - call before arrival",
+  "is_primary": true
+}
+
+### Set Location as Primary
+PATCH {{baseUrl}}{{locationsPath}}/{{locationId}}/set-primary
+
+### Toggle Location Active Status
+PATCH {{baseUrl}}{{locationsPath}}/{{locationId}}/toggle-active
+
+### Delete Location
+DELETE {{baseUrl}}{{locationsPath}}/{{locationId}}
+
+##################### GOOGLE MAPS INTEGRATION ENDPOINTS #################################
+
+### Get Live Location from GPS Coordinates
+GET {{baseUrl}}{{locationsPath}}/google/live-location?latitude=6.4281&longitude=3.4219
+
+### Get Coordinates from Address
+GET {{baseUrl}}{{locationsPath}}/google/coordinates?address=Victoria Island Lagos Nigeria
+
+### Search Places (restaurants near Lagos)
+GET {{baseUrl}}{{locationsPath}}/google/places/search?query=restaurants&latitude=6.4281&longitude=3.4219&radius=5000
+
+### Get Place Details by Place ID
+GET {{baseUrl}}{{locationsPath}}/google/places/ChIJN1t_tDeuEmsRUsoyG83frY4
+
+### Calculate Distance and Duration between two points
+GET {{baseUrl}}{{locationsPath}}/google/distance?originLat=6.4281&originLng=3.4219&destLat=6.4474&destLng=3.4203
+
+### Create Location from GPS Coordinates (Auto-fill address)
+POST {{baseUrl}}{{locationsPath}}/google/create-from-coordinates
+Content-Type: application/json
+
+{
+  "latitude": 6.4281,
+  "longitude": 3.4219,
+  "user_id": "{{userId}}",
+  "location_type": "HOME"
+}
+
+### Create Location from Address (Auto-fill coordinates)
+POST {{baseUrl}}{{locationsPath}}/google/create-from-address
+Content-Type: application/json
+
+{
+  "address": "Victoria Island, Lagos, Nigeria",
+  "user_id": "{{userId}}",
+  "location_type": "OFFICE"
+}
