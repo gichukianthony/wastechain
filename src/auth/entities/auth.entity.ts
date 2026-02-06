@@ -13,10 +13,10 @@ export class Auth {
 
   @Column({
     type: 'enum',
-    enum: ['LOCAL', 'GOOGLE', 'FACEBOOK'],
+    enum: ['LOCAL', 'GOOGLE', 'FACEBOOK', 'WHATSAPP', 'AUTHENTICATOR'],
     default: 'LOCAL',
   })
-  provider: 'LOCAL' | 'GOOGLE' | 'FACEBOOK';
+  provider: 'LOCAL' | 'GOOGLE' | 'FACEBOOK' | 'WHATSAPP' | 'AUTHENTICATOR';
 
   @Column('timestamptz', { default: () => 'CURRENT_TIMESTAMP' })
   last_login: Date;
