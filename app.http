@@ -15,7 +15,109 @@
 @analyticsId = 00000000-0000-0000-0000-000000000000
 @locationsPath = /locations
 @locationId = 00000000-0000-0000-0000-000000000000
+@authPath = /auth
+@authId = 1
 
+
+########################################  AUTH TESTING ENDPOINTS   ###########################################################
+
+### Login (email + password) -> JWT
+POST {{baseUrl}}{{authPath}}/login
+Content-Type: application/json
+
+{
+  "email": "antoh@test.gmail.com",
+  "password": "ChangeMe123!"
+}
+
+### Google OAuth Login (id_token -> JWT)
+POST {{baseUrl}}{{authPath}}/google
+Content-Type: application/json
+
+{
+  "idToken": "GOOGLE_ID_TOKEN"
+}
+
+### Request OTP for phone login (WhatsApp)
+POST {{baseUrl}}{{authPath}}/otp/request
+Content-Type: application/json
+
+{
+  "phone": "+254721227443"
+}
+
+### Verify OTP and get JWT
+POST {{baseUrl}}{{authPath}}/otp/verify
+Content-Type: application/json
+
+{
+  "phone": "+254799163101",
+  "code": "123456"
+}
+
+### Begin Authenticator setup (requires JWT)
+POST {{baseUrl}}{{authPath}}/authenticator/setup
+Authorization: Bearer {{jwtToken}}
+
+### Verify Authenticator token to finalize setup
+POST {{baseUrl}}{{authPath}}/authenticator/verify
+Authorization: Bearer {{jwtToken}}
+Content-Type: application/json
+
+{
+  "token": "123456"
+}
+
+### Login using Authenticator (email + TOTP)
+POST {{baseUrl}}{{authPath}}/authenticator/login
+Content-Type: application/json
+
+{
+  "email": "antoh@test.gmail.com",
+  "token": "123456"
+}
+
+### Request Password Reset
+POST {{baseUrl}}{{authPath}}/password/reset-request
+Content-Type: application/json
+
+{
+  "email": "antoh@test.gmail.com"
+}
+
+### Reset Password with Token
+POST {{baseUrl}}{{authPath}}/password/reset
+Content-Type: application/json
+
+{
+  "email": "antoh@test.gmail.com",
+  "token": "PASTE_RESET_TOKEN_HERE",
+  "newPassword": "NewSecurePassword123!"
+}
+
+### Get current profile (requires Authorization: Bearer <token>)
+GET {{baseUrl}}{{authPath}}/profile
+Authorization: Bearer {{jwtToken}}
+
+##########################  DID AUTH TESTING ENDPOINTS   ###########################################################
+
+### Request DID Auth Challenge
+POST {{baseUrl}}{{authPath}}/did/challenge
+Content-Type: application/json
+
+{
+  "did": "did:example:123456789abcdefghi"
+}
+
+### DID Auth Login
+POST {{baseUrl}}{{authPath}}/did/login
+Content-Type: application/json
+
+{
+  "did": "did:example:123456789abcdefghi",
+  "jwt": "PASTE_SIGNED_JWT_HERE",
+  "challengeId": "50031695-a58c-413d-82ec-7bca9ed56ccd"
+}
 
 ########################################  USERS TESTING ENDPOINTS   ###########################################################
 
@@ -381,7 +483,8 @@ GET {{baseUrl}}{{locationsPath}}/google/coordinates?address=Victoria Island Lago
 GET {{baseUrl}}{{locationsPath}}/google/places/search?query=restaurants&latitude=6.4281&longitude=3.4219&radius=5000
 
 ### Get Place Details by Place ID
-GET {{baseUrl}}{{locationsPath}}/google/places/ChIJN1t_tDeuEmsRUsoyG83frY4
+# GET {{baseUrl}}{{locationsPath}}/google/places/ChIJN1t_tDeuEmsRUsoyG83frY4
+// This endpoint is disabled: it is not supported in LocationIQService.
 
 ### Calculate Distance and Duration between two points
 GET {{baseUrl}}{{locationsPath}}/google/distance?originLat=6.4281&originLng=3.4219&destLat=6.4474&destLng=3.4203
@@ -402,7 +505,7 @@ POST {{baseUrl}}{{locationsPath}}/google/create-from-address
 Content-Type: application/json
 
 {
-  "address": "Victoria Island, Lagos, Nigeria",
+  "address": "kutus, kirinyaga, kenya",
   "user_id": "{{userId}}",
   "location_type": "OFFICE"
 }
