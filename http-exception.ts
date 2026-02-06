@@ -62,9 +62,13 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
         : JSON.stringify(myResponseObj.response);
 
     // Log the error with client IP and path
-    void this.logs.logToFile(
-      `ERROR: ${logMessage} - Path: ${request.url}`,
-      clientIp,
-    );
+    void this.logs.logToFile(`ERROR: ${logMessage}`, {
+      ip: clientIp,
+      context: 'exception',
+      metadata: {
+        path: request.url,
+        statusCode: myResponseObj.statusCode,
+      },
+    });
   }
 }
