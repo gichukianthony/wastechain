@@ -13,14 +13,14 @@ export class LocationsService {
     private readonly locationRepository: Repository<Location>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async create(createLocationDto: CreateLocationDto): Promise<Location> {
     const { user_id, ...locationData } = createLocationDto;
 
     // Verify user exists
     const user = await this.userRepository.findOne({
-      where: { user_id }
+      where: { user_id },
     });
 
     if (!user) {
@@ -31,7 +31,7 @@ export class LocationsService {
     if (locationData.is_primary) {
       await this.locationRepository.update(
         { user: { user_id }, is_primary: true },
-        { is_primary: false }
+        { is_primary: false },
       );
     }
 
@@ -46,14 +46,14 @@ export class LocationsService {
   async findAll(): Promise<Location[]> {
     return await this.locationRepository.find({
       relations: ['user'],
-      order: { created_at: 'DESC' }
+      order: { created_at: 'DESC' },
     });
   }
 
   async findOne(id: string): Promise<Location> {
     const location = await this.locationRepository.findOne({
       where: { location_id: id },
-      relations: ['user']
+      relations: ['user'],
     });
 
     if (!location) {
@@ -67,7 +67,7 @@ export class LocationsService {
     return await this.locationRepository.find({
       where: { user: { user_id: userId } },
       relations: ['user'],
-      order: { is_primary: 'DESC', created_at: 'DESC' }
+      order: { is_primary: 'DESC', created_at: 'DESC' },
     });
   }
 
@@ -76,9 +76,9 @@ export class LocationsService {
       where: {
         user: { user_id: userId },
         is_primary: true,
-        is_active: true
+        is_active: true,
       },
-      relations: ['user']
+      relations: ['user'],
     });
   }
 
@@ -86,11 +86,15 @@ export class LocationsService {
     return await this.locationRepository.find({
       where: { location_type: locationType as any },
       relations: ['user'],
-      order: { created_at: 'DESC' }
+      order: { created_at: 'DESC' },
     });
   }
 
-  async findNearby(latitude: number, longitude: number, radiusKm: number = 10): Promise<Location[]> {
+  async findNearby(
+    latitude: number,
+    longitude: number,
+    radiusKm: number = 10,
+  ): Promise<Location[]> {
     // Using Haversine formula to find locations within radius
     const query = `
       SELECT *, 
@@ -105,10 +109,17 @@ export class LocationsService {
       ORDER BY distance
     `;
 
-    return await this.locationRepository.query(query, [latitude, longitude, radiusKm]);
+    return await this.locationRepository.query(query, [
+      latitude,
+      longitude,
+      radiusKm,
+    ]);
   }
 
-  async update(id: string, updateLocationDto: UpdateLocationDto): Promise<Location> {
+  async update(
+    id: string,
+    updateLocationDto: UpdateLocationDto,
+  ): Promise<Location> {
     const location = await this.findOne(id);
 
     const { user_id, ...updateData } = updateLocationDto;
@@ -116,13 +127,13 @@ export class LocationsService {
     // Prepare update object
     const updateObject: any = {
       ...updateData,
-      updated_at: new Date()
+      updated_at: new Date(),
     };
 
     // If user_id is provided, verify user exists
     if (user_id) {
       const user = await this.userRepository.findOne({
-        where: { user_id }
+        where: { user_id },
       });
 
       if (!user) {
@@ -135,7 +146,7 @@ export class LocationsService {
     if (updateData.is_primary) {
       await this.locationRepository.update(
         { user: { user_id: location.user.user_id }, is_primary: true },
-        { is_primary: false }
+        { is_primary: false },
       );
     }
 
@@ -155,7 +166,7 @@ export class LocationsService {
     // Unset other primary locations for this user
     await this.locationRepository.update(
       { user: { user_id: location.user.user_id }, is_primary: true },
-      { is_primary: false }
+      { is_primary: false },
     );
 
     // Set this location as primary
@@ -168,7 +179,7 @@ export class LocationsService {
     const location = await this.findOne(id);
     await this.locationRepository.update(id, {
       is_active: !location.is_active,
-      updated_at: new Date()
+      updated_at: new Date(),
     });
 
     return await this.findOne(id);
@@ -178,15 +189,18 @@ export class LocationsService {
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number
+    lon2: number,
   ): Promise<number> {
     const R = 6371; // Earth's radius in kilometers
     const dLat = this.toRadians(lat2 - lat1);
     const dLon = this.toRadians(lon2 - lon1);
 
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.toRadians(lat1)) *
+        Math.cos(this.toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c;
