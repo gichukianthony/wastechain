@@ -4,11 +4,12 @@ import { AnalyticsService } from './analytics.service';
 import { AnalyticsController } from './analytics.controller';
 import { Analytics } from './entities/analytics.entity';
 import { User } from 'src/users/entities/user.entity';
+import { AnalyticsCronService } from './analytics.cron.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Analytics, User])],
   controllers: [AnalyticsController],
-  providers: [AnalyticsService],
+  providers: [AnalyticsService, AnalyticsCronService],
   exports: [AnalyticsService],
 })
 export class AnalyticsModule {}
