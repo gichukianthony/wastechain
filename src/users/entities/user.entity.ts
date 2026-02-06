@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { WasteRequest } from 'src/waste/entities/waste-request.entity';
 import { Location } from 'src/locations/entities/location.entity';
+import { UserCredential } from './user-credential.entity';
 
 @Entity('users')
 export class User {
@@ -36,4 +37,12 @@ export class User {
 
   @OneToMany(() => Location, (location) => location.user)
   locations: Location[];
+
+  @OneToMany(() => UserCredential, (credential) => credential.user, {
+    cascade: true,
+  })
+  credentials: UserCredential[];
+
+  @Column({ nullable: true })
+  authenticator_secret?: string;
 }
