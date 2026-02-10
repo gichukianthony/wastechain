@@ -243,7 +243,7 @@ Before deploying to production:
 If you discover a security vulnerability, please report it responsibly:
 
 1. **Do NOT** create a public GitHub issue
-2. Email security concerns to: [your-security-email@example.com]
+2. Email security concerns to: [antonygatitu327@gmail.com ]
 3. Include details about the vulnerability
 4. Allow time for the issue to be addressed before public disclosure
 
@@ -251,7 +251,7 @@ If you discover a security vulnerability, please report it responsibly:
 
 ## 📝 Changelog
 
-### 2024-01-XX
+### 2026-01-27
 - ✅ Implemented Helmet security headers
 - ✅ Configured CORS with environment-based origins
 - ✅ Added global rate limiting (100 req/min)
@@ -260,5 +260,5 @@ If you discover a security vulnerability, please report it responsibly:
 
 ---
 
-**Last Updated**: 2024-01-XX
+**Last Updated**: 2026-02-10
 **Maintained By**: WasteChain Security Team
