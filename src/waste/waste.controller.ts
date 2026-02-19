@@ -126,8 +126,8 @@ export class WasteController {
     return this.wasteService.removeRequest(id);
   }
 
-  @Post('schedule-pickup')
   @ApiOperation({ summary: 'Schedule waste pickup job' })
+  @Post('schedule-pickup')
   @ApiResponse({ status: 201, description: 'Pickup job scheduled successfully' })
   @ApiBody({
     schema: {

@@ -18,6 +18,7 @@
 @authPath = /auth
 @authId = 1
 
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWYyZjkxMC0yYjQwLTRlNWUtOTk1OC1jNjgzNDRhNGJiODUiLCJlbWFpbCI6IisyNTQ3MjEyMjc0NDNAd2FzdGVjaGFpbi5hcHAiLCJyb2xlIjoiSE9VU0VIT0xEIiwiaWF0IjoxNzcwNzE2NjAzLCJleHAiOjE3NzA3MjAyMDN9.Zij2MFOxWx5vp0mfJlBeORJx3ARYUzfSuODh41lsgdM
 
 ########################################  AUTH TESTING ENDPOINTS   ###########################################################
 
@@ -26,7 +27,7 @@ POST {{baseUrl}}{{authPath}}/login
 Content-Type: application/json
 
 {
-  "email": "antoh@test.gmail.com",
+  "email": "antonygatitu327@gmail.com",
   "password": "ChangeMe123!"
 }
 
@@ -51,8 +52,8 @@ POST {{baseUrl}}{{authPath}}/otp/verify
 Content-Type: application/json
 
 {
-  "phone": "+254799163101",
-  "code": "123456"
+  "phone": "+254721227443",
+  "code": "822102"
 }
 
 ### Begin Authenticator setup (requires JWT)
@@ -91,7 +92,7 @@ Content-Type: application/json
 
 {
   "email": "antoh@test.gmail.com",
-  "token": "PASTE_RESET_TOKEN_HERE",
+  "token": "4vs9pQZ3CgkOcVfXAPWiXswTLOYnNs7LPV6hppcEen9MYpEt",
   "newPassword": "NewSecurePassword123!"
 }
 
@@ -116,7 +117,7 @@ Content-Type: application/json
 {
   "did": "did:example:123456789abcdefghi",
   "jwt": "PASTE_SIGNED_JWT_HERE",
-  "challengeId": "50031695-a58c-413d-82ec-7bca9ed56ccd"
+  "challengeId": "390bc3dc-c19f-4ffc-9d5e-9cd788b121b2"
 }
 
 ########################################  USERS TESTING ENDPOINTS   ###########################################################
@@ -127,7 +128,7 @@ Content-Type: application/json
 
 {
   "full_name": "antony gichuki",
-  "email": "antoh@test.gmail.com",
+  "email": "antonygatitu327@gmail.com",
   "password": "ChangeMe123!",
   "role": "HOUSEHOLD",
   "phone_number": "+1234567890",
